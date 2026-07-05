@@ -12,9 +12,18 @@ body {
 
 a { text-decoration: none; color: inherit; }
 
+/* ── RENK PALETİ ── */
+:root {
+  --orange: #F5821F;
+  --purple: #7B2FC9;
+  --blue: #1AA8E8;
+  --dark: #0D1530;
+  --dark2: #1a1a3a;
+}
+
 /* ── ANNOUNCEMENT BAR ── */
 .announcement-bar {
-  background: #222;
+  background: var(--purple);
   color: #fff;
   text-align: center;
   font-size: 13px;
@@ -23,7 +32,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .announcement-bar span {
-  color: #f26522;
+  color: #FFD700;
   font-weight: 700;
 }
 
@@ -46,20 +55,16 @@ header {
 }
 
 .logo {
-  font-size: 30px;
-  font-weight: 900;
-  color: #f26522;
-  letter-spacing: -1px;
-  white-space: nowrap;
+  height: 56px;
+  width: auto;
+  display: block;
 }
-
-.logo span { color: #222; }
 
 .search-bar {
   flex: 1;
   max-width: 520px;
   display: flex;
-  border: 2px solid #f26522;
+  border: 2px solid var(--orange);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -74,7 +79,7 @@ header {
 }
 
 .search-bar button {
-  background: #f26522;
+  background: var(--orange);
   border: none;
   padding: 0 20px;
   cursor: pointer;
@@ -99,7 +104,7 @@ header {
   transition: color 0.2s;
 }
 
-.action-btn:hover { color: #f26522; }
+.action-btn:hover { color: var(--orange); }
 
 .action-btn .icon { font-size: 22px; }
 
@@ -111,7 +116,7 @@ header {
   position: absolute;
   top: -4px;
   right: -8px;
-  background: #f26522;
+  background: var(--orange);
   color: #fff;
   font-size: 10px;
   font-weight: 700;
@@ -148,7 +153,7 @@ header {
 
 .nav-item > a:hover,
 .nav-item:hover > a {
-  color: #f26522;
+  color: var(--orange);
   background: #fff8f4;
 }
 
@@ -159,7 +164,7 @@ header {
   left: 0;
   background: #fff;
   border: 1px solid #eee;
-  border-top: 2px solid #f26522;
+  border-top: 2px solid var(--orange);
   border-radius: 0 0 8px 8px;
   min-width: 200px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
@@ -179,12 +184,12 @@ header {
 
 .dropdown a:hover {
   background: #fff8f4;
-  color: #f26522;
+  color: var(--orange);
 }
 
 /* ── HERO BANNER ── */
 .hero {
-  background: linear-gradient(120deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(120deg, #0D1530 0%, #1a1a3a 50%, #0D1530 100%);
   padding: 64px 48px;
   display: flex;
   align-items: center;
@@ -200,7 +205,7 @@ header {
   max-width: 500px;
 }
 
-.hero-text h1 span { color: #f26522; }
+.hero-text h1 span { color: var(--orange); }
 
 .hero-text p {
   margin-top: 16px;
@@ -213,7 +218,7 @@ header {
 .hero-btn {
   display: inline-block;
   margin-top: 32px;
-  background: #f26522;
+  background: var(--orange);
   color: #fff;
   padding: 14px 36px;
   border-radius: 8px;
@@ -223,7 +228,7 @@ header {
 }
 
 .hero-btn:hover {
-  background: #d4551a;
+  background: #d4691a;
   transform: translateY(-2px);
 }
 
@@ -245,13 +250,13 @@ header {
   font-size: 22px;
   font-weight: 800;
   color: #222;
-  border-left: 4px solid #f26522;
+  border-left: 4px solid var(--orange);
   padding-left: 12px;
 }
 
 .see-all {
   font-size: 13px;
-  color: #f26522;
+  color: var(--orange);
   font-weight: 600;
   transition: opacity 0.2s;
 }
@@ -319,7 +324,7 @@ header {
   transition: border-color 0.2s;
 }
 
-.favorite-btn:hover { border-color: #f26522; }
+.favorite-btn:hover { border-color: var(--orange); }
 
 .product-info {
   padding: 14px;
@@ -345,7 +350,7 @@ header {
   margin-bottom: 12px;
 }
 
-.product-name:hover { color: #f26522; }
+.product-name:hover { color: var(--orange); }
 
 .price-row {
   display: flex;
@@ -363,7 +368,7 @@ header {
 .price-new {
   font-size: 18px;
   font-weight: 800;
-  color: #f26522;
+  color: var(--orange);
 }
 
 .price-kdv {
@@ -373,7 +378,7 @@ header {
 
 .add-to-cart {
   width: 100%;
-  background: #f26522;
+  background: var(--orange);
   color: #fff;
   border: none;
   padding: 11px;
@@ -384,7 +389,7 @@ header {
   transition: background 0.2s;
 }
 
-.add-to-cart:hover { background: #d4551a; }
+.add-to-cart:hover { background: #d4691a; }
 
 /* ── CATEGORY CARDS ── */
 .category-grid {
@@ -405,7 +410,7 @@ header {
 
 .category-card:hover {
   transform: translateY(-3px);
-  border-color: #f26522;
+  border-color: var(--orange);
   box-shadow: 0 6px 20px rgba(242, 101, 34, 0.12);
 }
 
@@ -415,7 +420,7 @@ header {
 
 /* ── BANNER ── */
 .promo-banner {
-  background: linear-gradient(135deg, #f26522, #e8440a);
+  background: linear-gradient(135deg, var(--purple), var(--blue));
   margin: 0 48px;
   border-radius: 12px;
   padding: 48px;
@@ -430,7 +435,7 @@ header {
 
 .promo-btn {
   background: #fff;
-  color: #f26522;
+  color: var(--orange);
   padding: 14px 36px;
   border-radius: 8px;
   font-weight: 800;
@@ -443,7 +448,7 @@ header {
 
 /* ── FOOTER ── */
 footer {
-  background: #1a1a1a;
+  background: var(--dark);
   color: #aaa;
   padding: 56px 48px 28px;
   margin-top: 56px;
@@ -481,7 +486,7 @@ footer {
   transition: color 0.2s;
 }
 
-.footer-col a:hover { color: #f26522; }
+.footer-col a:hover { color: var(--orange); }
 
 .footer-contact p {
   font-size: 13px;
@@ -516,7 +521,7 @@ footer {
   transition: background 0.2s, color 0.2s;
 }
 
-.social-links a:hover { background: #f26522; color: #fff; }
+.social-links a:hover { background: var(--orange); color: #fff; }
 
 /* ── WHATSAPP ── */
 .whatsapp-float {
