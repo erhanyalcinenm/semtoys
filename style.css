@@ -377,6 +377,7 @@ header {
 }
 
 .add-to-cart {
+  display: block;
   width: 100%;
   background: var(--orange);
   color: #fff;
@@ -386,6 +387,8 @@ header {
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
   transition: background 0.2s;
 }
 
