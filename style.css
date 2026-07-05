@@ -549,3 +549,112 @@ footer {
   transform: scale(1.1);
   box-shadow: 0 6px 24px rgba(37, 211, 102, 0.5);
 }
+
+/* ── TABLET (max 1024px) ── */
+@media (max-width: 1024px) {
+  .header-top { padding: 12px 24px; gap: 16px; }
+  .header-nav { padding: 0 24px; }
+  .section { padding: 40px 24px; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .promo-banner { margin: 0 24px; padding: 36px; }
+  .hero { padding: 48px 24px; }
+  .hero-text h1 { font-size: 34px; }
+  .hero-visual { font-size: 100px; }
+}
+
+/* ── MOBİL (max 768px) ── */
+@media (max-width: 768px) {
+  .announcement-bar { font-size: 11px; padding: 7px 12px; }
+
+  /* Header */
+  .header-top {
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .logo { height: 52px; }
+
+  .search-bar {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+  }
+
+  .header-actions { gap: 12px; }
+  .action-btn span:not(.icon):not(.cart-count) { display: none; }
+  .action-btn .icon { font-size: 26px; }
+
+  /* Nav — yatay scroll */
+  .header-nav {
+    padding: 0 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .header-nav::-webkit-scrollbar { display: none; }
+  .nav-item > a { padding: 11px 12px; font-size: 13px; }
+  .dropdown { display: none !important; }
+
+  /* Hero */
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+    min-height: auto;
+    gap: 24px;
+  }
+  .hero-text h1 { font-size: 26px; max-width: 100%; }
+  .hero-text p { font-size: 14px; max-width: 100%; }
+  .hero-btn { padding: 12px 28px; font-size: 14px; }
+  .hero-visual { font-size: 72px; }
+
+  /* Sections */
+  .section { padding: 28px 16px; }
+  .section-title { font-size: 18px; }
+
+  /* Grids */
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  /* Product card */
+  .product-img-wrap { height: 150px; font-size: 64px; }
+  .product-info { padding: 10px; }
+  .product-name { font-size: 12px; }
+  .price-new { font-size: 15px; }
+  .add-to-cart { font-size: 12px; padding: 9px; }
+
+  /* Category card */
+  .category-card { padding: 20px 12px; }
+  .category-card .icon { font-size: 36px; }
+  .category-card h3 { font-size: 13px; }
+
+  /* Promo banner */
+  .promo-banner {
+    margin: 0 16px;
+    padding: 28px 20px;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  .promo-banner h2 { font-size: 22px; }
+  .promo-banner p { font-size: 14px; }
+
+  /* Footer */
+  footer { padding: 40px 16px 20px; margin-top: 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-brand p { max-width: 100%; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+
+  /* WhatsApp */
+  .whatsapp-float { width: 48px; height: 48px; font-size: 24px; bottom: 20px; right: 20px; }
+}
+
+/* ── KÜÇÜK MOBİL (max 400px) ── */
+@media (max-width: 400px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .hero-text h1 { font-size: 22px; }
+}
