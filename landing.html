@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SemToys — Koleksiyon Oyuncaklar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #fff; font-family: 'Manrope', sans-serif; color: #0F1B33; overflow-x: hidden; }
+    ::selection { background: #1657D0; color: #fff; }
+    a { color: inherit; text-decoration: none; }
+    input, textarea { font-family: 'Manrope', sans-serif; }
+    input::placeholder, textarea::placeholder { color: #68738A; opacity: .8; }
+
+    @keyframes carDraw {
+      0%   { stroke-dashoffset: 1100; opacity: 0; }
+      8%   { opacity: 1; }
+      55%  { stroke-dashoffset: 0; opacity: 1; }
+      82%  { stroke-dashoffset: 0; opacity: 1; }
+      94%  { opacity: 0; }
+      100% { opacity: 0; stroke-dashoffset: 1100; }
+    }
+    @keyframes carFill {
+      0%   { opacity: 0; } 55% { opacity: 0; } 68% { opacity: .16; }
+      82%  { opacity: .16; } 94% { opacity: 0; } 100% { opacity: 0; }
+    }
+    @keyframes wheelSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes hubGlow { 0%,55% { opacity: 0; } 70%,88% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes speedLine {
+      0%   { transform: translateX(130%); opacity: 0; }
+      12%  { opacity: 1; } 75% { opacity: 1; }
+      100% { transform: translateX(-160%); opacity: 0; }
+    }
+    @keyframes vintageDraw {
+      0%   { stroke-dashoffset: 1300; opacity: 0; }
+      8%   { opacity: 1; }
+      60%  { stroke-dashoffset: 0; opacity: 1; }
+      85%  { stroke-dashoffset: 0; opacity: 1; }
+      95%  { opacity: 0; }
+      100% { opacity: 0; stroke-dashoffset: 1300; }
+    }
+
+    .nav-link:hover { color: #1657D0; }
+    .prod-card { transition: transform .2s, box-shadow .2s; }
+    .prod-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -16px rgba(22,87,208,.22); }
+    .tier-card { transition: transform .2s; }
+    .tier-card:hover { transform: translateY(-3px); }
+
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: flex; }
+    #form-success { display: none; }
+    #form-success.visible { display: flex; }
+    #contact-form.hidden { display: none; }
+
+    @media (max-width: 900px) {
+      .st-nav-desktop { display: none !important; }
+      .st-nav-toggle { display: flex !important; }
+      .st-hero-grid { grid-template-columns: 1fr !important; }
+      .st-grid-4 { grid-template-columns: repeat(2,1fr) !important; }
+      .st-grid-3 { grid-template-columns: 1fr !important; }
+      .st-about-grid, .st-contact-grid { grid-template-columns: 1fr !important; }
+      .st-hero-grid > div:last-child { display: none; }
+    }
+    @media (max-width: 540px) {
+      .st-grid-4 { grid-template-columns: 1fr !important; }
+      .trust-grid { grid-template-columns: repeat(2,1fr) !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<header style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(22,87,208,.18);">
+  <div style="max-width:1280px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <a href="#hero">
+      <img src="logo2.png" alt="SemToys" style="height:72px;width:auto;filter:drop-shadow(0 2px 10px rgba(22,87,208,.2));" />
+    </a>
+    <nav class="st-nav-desktop" style="display:flex;align-items:center;gap:36px;font-size:15px;font-weight:600;letter-spacing:.02em;">
+      <a href="#hero"         class="nav-link" style="color:#0F1B33;">Ana Sayfa</a>
+      <a href="#koleksiyon"   class="nav-link" style="color:#0F1B33;">Koleksiyon</a>
+      <a href="#hakkimizda"   class="nav-link" style="color:#0F1B33;">Hakkımızda</a>
+      <a href="#fiyatlar"     class="nav-link" style="color:#0F1B33;">Fiyat Aralıkları</a>
+      <a href="#iletisim"     class="nav-link" style="color:#0F1B33;">İletişim</a>
+    </nav>
+    <div class="st-nav-desktop">
+      <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+         style="background:linear-gradient(135deg,#2F6FF0,#0B3FA0);color:#fff;font-weight:700;font-size:14px;padding:11px 22px;border-radius:2px;letter-spacing:.03em;white-space:nowrap;">
+        Trendyol'da İncele
+      </a>
+    </div>
+    <button class="st-nav-toggle" id="menu-toggle"
+      style="display:none;background:none;border:1px solid rgba(22,87,208,.4);color:#0F1B33;font-size:22px;width:42px;height:42px;border-radius:2px;cursor:pointer;">☰</button>
+  </div>
+  <div id="mobile-menu" style="flex-direction:column;gap:0;border-top:1px solid rgba(22,87,208,.18);">
+    <a href="#hero"       onclick="closeMobileMenu()" style="padding:16px 32px;font-weight:600;border-bottom:1px solid rgba(22,87,208,.1);">Ana Sayfa</a>
+    <a href="#koleksiyon" onclick="closeMobileMenu()" style="padding:16px 32px;font-weight:600;border-bottom:1px solid rgba(22,87,208,.1);">Koleksiyon</a>
+    <a href="#hakkimizda" onclick="closeMobileMenu()" style="padding:16px 32px;font-weight:600;border-bottom:1px solid rgba(22,87,208,.1);">Hakkımızda</a>
+    <a href="#fiyatlar"   onclick="closeMobileMenu()" style="padding:16px 32px;font-weight:600;border-bottom:1px solid rgba(22,87,208,.1);">Fiyat Aralıkları</a>
+    <a href="#iletisim"   onclick="closeMobileMenu()" style="padding:16px 32px;font-weight:600;">İletişim</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="hero" class="st-hero-grid"
+  style="max-width:1280px;margin:0 auto;padding:88px 32px 96px;display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;">
+  <div>
+    <div style="display:inline-flex;align-items:center;gap:10px;color:#1657D0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:24px;">
+      <span style="width:28px;height:1px;background:#1657D0;"></span>
+      Koleksiyonerler İçin Vitrin
+    </div>
+    <h1 style="font-family:'Playfair Display',serif;font-size:56px;line-height:1.08;font-weight:600;margin:0 0 24px;color:#101828;">
+      Her Model, <em style="color:#2F6FF0;font-style:italic;">Bir Hikaye</em> Anlatır
+    </h1>
+    <p style="font-size:17px;line-height:1.75;color:#5B667A;max-width:480px;margin:0 0 36px;">
+      Lisanslı Hot Wheels Premium, Car Culture ve Fast &amp; Furious serilerinden özenle seçilmiş model otomobiller.
+      SemToys, koleksiyonunuzu büyütmek isteyen tutkunlar için küratörlüğü yapılmış bir vitrindir.
+    </p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="#koleksiyon" style="background:#2F6FF0;color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:2px;letter-spacing:.02em;">
+        Koleksiyonu Keşfet
+      </a>
+      <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+         style="border:1px solid rgba(22,87,208,.35);color:#0F1B33;font-weight:700;font-size:15px;padding:16px 30px;border-radius:2px;letter-spacing:.02em;">
+        Trendyol Mağazamız
+      </a>
+    </div>
+    <div style="display:flex;gap:32px;margin-top:56px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:#2F6FF0;font-weight:600;">500+</div>
+        <div style="font-size:13px;color:#68738A;margin-top:4px;">Koleksiyonluk Model</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:#2F6FF0;font-weight:600;">%100</div>
+        <div style="font-size:13px;color:#68738A;margin-top:4px;">Orijinal Lisans</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:#2F6FF0;font-weight:600;">4.9/5</div>
+        <div style="font-size:13px;color:#68738A;margin-top:4px;">Müşteri Memnuniyeti</div>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;">
+    <div style="position:absolute;inset:-20px;background:radial-gradient(circle at 30% 20%,rgba(22,87,208,.16),transparent 60%);pointer-events:none;"></div>
+    <div style="width:100%;aspect-ratio:4/5;border-radius:4px;overflow:hidden;border:1px solid rgba(22,87,208,.25);box-shadow:0 40px 80px -30px rgba(0,0,0,.55);">
+      <img src="https://cdn.dsmcdn.com/ty1896/prod/QC_PREP/20260620/18/92372ece-f720-3f82-b408-1abaa653b7f0/1_org_zoom.jpg"
+           alt="Premium Fast & Furious 10'lu Set"
+           style="width:100%;height:100%;object-fit:cover;" />
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     TRUST BAR
+════════════════════════════════════════ -->
+<section style="border-top:1px solid rgba(22,87,208,.15);border-bottom:1px solid rgba(22,87,208,.15);background:#F1F5FE;">
+  <div class="trust-grid"
+    style="max-width:1280px;margin:0 auto;padding:28px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+    <div style="display:flex;align-items:center;justify-content:center;text-align:center;">
+      <div style="font-size:13px;font-weight:700;letter-spacing:.04em;color:#0F1B33;">✦ Orijinal Lisanslı Ürünler</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;text-align:center;border-left:1px solid rgba(22,87,208,.15);">
+      <div style="font-size:13px;font-weight:700;letter-spacing:.04em;color:#0F1B33;">✦ Trendyol Güvencesiyle Alışveriş</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;text-align:center;border-left:1px solid rgba(22,87,208,.15);">
+      <div style="font-size:13px;font-weight:700;letter-spacing:.04em;color:#0F1B33;">✦ Özenli, Hasarsız Kargo</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;text-align:center;border-left:1px solid rgba(22,87,208,.15);">
+      <div style="font-size:13px;font-weight:700;letter-spacing:.04em;color:#0F1B33;">✦ Koleksiyoner Onaylı Seçki</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     KATEGORİLER
+════════════════════════════════════════ -->
+<section id="koleksiyon" style="max-width:1280px;margin:0 auto;padding:120px 32px 40px;">
+  <div style="text-align:center;max-width:640px;margin:0 auto 64px;">
+    <div style="color:#1657D0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;">Koleksiyon</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:40px;font-weight:600;margin:0 0 16px;color:#101828;">Serilerimizi Keşfedin</h2>
+    <p style="font-size:16px;color:#5B667A;line-height:1.7;margin:0;">Her seviyeden koleksiyonere hitap eden, dikkatle seçilmiş dört ana kategori.</p>
+  </div>
+
+  <div class="st-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+
+    <!-- Hot Wheels Premium -->
+    <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+       style="border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;background:#F1F5FE;display:block;">
+      <div style="width:100%;aspect-ratio:1/1;position:relative;background:radial-gradient(circle at 50% 55%,#EAF0FD,#fff);">
+        <svg viewBox="0 0 440 220" style="width:82%;height:82%;position:absolute;top:9%;left:9%;overflow:visible;">
+          <path d="M15,168 C15,150 25,138 45,135 L70,133 C78,108 100,88 128,80 L168,68 C185,60 205,58 222,58 C242,58 258,64 270,76 L292,96 C310,100 335,102 355,108 C378,114 398,120 410,132 C418,140 420,150 418,162 L418,168 Z"
+                fill="none" stroke="#2F6FF0" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"
+                stroke-dasharray="1100" style="animation:carDraw 5s ease-in-out infinite;"></path>
+          <path d="M15,168 C15,150 25,138 45,135 L70,133 C78,108 100,88 128,80 L168,68 C185,60 205,58 222,58 C242,58 258,64 270,76 L292,96 C310,100 335,102 355,108 C378,114 398,120 410,132 C418,140 420,150 418,162 L418,168 Z"
+                fill="#2F6FF0" stroke="none" style="animation:carFill 5s ease-in-out infinite;"></path>
+          <path d="M168,68 L188,100" fill="none" stroke="#8A8F5C" stroke-width="3" stroke-linecap="round" stroke-dasharray="60" style="animation:carDraw 5s ease-in-out infinite;"></path>
+          <path d="M230,60 L214,133" fill="none" stroke="#8A8F5C" stroke-width="3" stroke-linecap="round" stroke-dasharray="90" style="animation:carDraw 5s ease-in-out infinite;"></path>
+          <circle cx="95"  cy="168" r="28" fill="#F1F5FE" stroke="#2F6FF0" stroke-width="3.5" stroke-dasharray="180" style="animation:carDraw 5s ease-in-out infinite;transform-origin:95px 168px;"></circle>
+          <circle cx="95"  cy="168" r="10" fill="none" stroke="#2F6FF0" stroke-width="2" style="animation:wheelSpin 2.2s linear infinite,hubGlow 5s ease-in-out infinite;transform-origin:95px 168px;"></circle>
+          <circle cx="340" cy="168" r="28" fill="#F1F5FE" stroke="#2F6FF0" stroke-width="3.5" stroke-dasharray="180" style="animation:carDraw 5s ease-in-out infinite;transform-origin:340px 168px;"></circle>
+          <circle cx="340" cy="168" r="10" fill="none" stroke="#2F6FF0" stroke-width="2" style="animation:wheelSpin 2.2s linear infinite,hubGlow 5s ease-in-out infinite;transform-origin:340px 168px;"></circle>
+        </svg>
+      </div>
+      <div style="padding:22px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0 0 8px;color:#101828;">Hot Wheels Premium</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;">Metal gövde, gerçek marka lisansları ile üst segment modeller.</p>
+      </div>
+    </a>
+
+    <!-- Car Culture -->
+    <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+       style="border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;background:#F1F5FE;display:block;">
+      <div style="width:100%;aspect-ratio:1/1;position:relative;background:repeating-linear-gradient(45deg,rgba(22,87,208,.14) 0 7px,transparent 7px 14px),repeating-linear-gradient(-45deg,rgba(138,143,92,.16) 0 7px,transparent 7px 14px),#EEF3FE;">
+        <svg viewBox="0 0 440 220" style="width:82%;height:82%;position:absolute;top:9%;left:9%;overflow:visible;filter:drop-shadow(0 2px 3px rgba(16,24,40,.25));">
+          <path d="M15,168 C15,150 25,138 45,135 L70,133 C78,108 100,88 128,80 L168,68 C185,60 205,58 222,58 C242,58 258,64 270,76 L292,96 C310,100 335,102 355,108 C378,114 398,120 410,132 C418,140 420,150 418,162 L418,168 Z"
+                fill="#101828" stroke="#101828" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"
+                stroke-dasharray="1100" style="animation:carDraw 5s ease-in-out infinite;animation-delay:.7s;"></path>
+          <path d="M168,68 L188,100" fill="none" stroke="#2F6FF0" stroke-width="3" stroke-linecap="round" stroke-dasharray="60" style="animation:carDraw 5s ease-in-out infinite;animation-delay:.7s;"></path>
+          <path d="M230,60 L214,133" fill="none" stroke="#2F6FF0" stroke-width="3" stroke-linecap="round" stroke-dasharray="90" style="animation:carDraw 5s ease-in-out infinite;animation-delay:.7s;"></path>
+          <circle cx="95"  cy="168" r="28" fill="#EEF3FE" stroke="#101828" stroke-width="3.5" stroke-dasharray="180" style="animation:carDraw 5s ease-in-out infinite;animation-delay:.7s;transform-origin:95px 168px;"></circle>
+          <circle cx="95"  cy="168" r="10" fill="none" stroke="#2F6FF0" stroke-width="2" style="animation:wheelSpin 2.2s linear infinite,hubGlow 5s ease-in-out infinite;animation-delay:0s,.7s;transform-origin:95px 168px;"></circle>
+          <circle cx="340" cy="168" r="28" fill="#EEF3FE" stroke="#101828" stroke-width="3.5" stroke-dasharray="180" style="animation:carDraw 5s ease-in-out infinite;animation-delay:.7s;transform-origin:340px 168px;"></circle>
+          <circle cx="340" cy="168" r="10" fill="none" stroke="#2F6FF0" stroke-width="2" style="animation:wheelSpin 2.2s linear infinite,hubGlow 5s ease-in-out infinite;animation-delay:0s,.7s;transform-origin:340px 168px;"></circle>
+        </svg>
+      </div>
+      <div style="padding:22px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0 0 8px;color:#101828;">Car Culture</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;">Modifiye kültürüne saygı duran, detaycı koleksiyoner serisi.</p>
+      </div>
+    </a>
+
+    <!-- Fast & Furious -->
+    <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+       style="border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;background:#F1F5FE;display:block;">
+      <div style="width:100%;aspect-ratio:1/1;position:relative;background:radial-gradient(circle at 50% 55%,#EAF0FD,#fff);overflow:hidden;">
+        <div style="position:absolute;inset:0;overflow:hidden;">
+          <div style="position:absolute;top:28%;left:0;width:70%;height:3px;background:linear-gradient(90deg,transparent,#2F6FF0 60%,transparent);animation:speedLine 1.4s linear infinite;animation-delay:1.4s;"></div>
+          <div style="position:absolute;top:42%;left:0;width:85%;height:4px;background:linear-gradient(90deg,transparent,#2F6FF0 60%,transparent);animation:speedLine 1.1s linear infinite;animation-delay:1.55s;"></div>
+          <div style="position:absolute;top:56%;left:0;width:60%;height:2px;background:linear-gradient(90deg,transparent,#8A8F5C 60%,transparent);animation:speedLine 1.3s linear infinite;animation-delay:1.7s;"></div>
+          <div style="position:absolute;top:66%;left:0;width:90%;height:3px;background:linear-gradient(90deg,transparent,#2F6FF0 60%,transparent);animation:speedLine 1.0s linear infinite;animation-delay:1.85s;"></div>
+        </div>
+        <svg viewBox="0 0 440 220" style="width:82%;height:82%;position:absolute;top:9%;left:9%;overflow:visible;">
+          <path d="M15,168 C15,150 25,138 45,135 L70,133 C78,108 100,88 128,80 L168,68 C185,60 205,58 222,58 C242,58 258,64 270,76 L292,96 C310,100 335,102 355,108 C378,114 398,120 410,132 C418,140 420,150 418,162 L418,168 Z"
+                fill="none" stroke="#2F6FF0" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"
+                stroke-dasharray="1100" style="animation:carDraw 5s ease-in-out infinite;animation-delay:1.4s;"></path>
+          <path d="M15,168 C15,150 25,138 45,135 L70,133 C78,108 100,88 128,80 L168,68 C185,60 205,58 222,58 C242,58 258,64 270,76 L292,96 C310,100 335,102 355,108 C378,114 398,120 410,132 C418,140 420,150 418,162 L418,168 Z"
+                fill="#2F6FF0" stroke="none" style="animation:carFill 5s ease-in-out infinite;animation-delay:1.4s;"></path>
+          <circle cx="95"  cy="168" r="28" fill="#F1F5FE" stroke="#2F6FF0" stroke-width="3.5" stroke-dasharray="180" style="animation:carDraw 5s ease-in-out infinite;animation-delay:1.4s;transform-origin:95px 168px;"></circle>
+          <circle cx="95"  cy="168" r="10" fill="none" stroke="#2F6FF0" stroke-width="2" style="animation:wheelSpin 2.2s linear infinite,hubGlow 5s ease-in-out infinite;animation-delay:0s,1.4s;transform-origin:95px 168px;"></circle>
+          <circle cx="340" cy="168" r="28" fill="#F1F5FE" stroke="#2F6FF0" stroke-width="3.5" stroke-dasharray="180" style="animation:carDraw 5s ease-in-out infinite;animation-delay:1.4s;transform-origin:340px 168px;"></circle>
+          <circle cx="340" cy="168" r="10" fill="none" stroke="#2F6FF0" stroke-width="2" style="animation:wheelSpin 2.2s linear infinite,hubGlow 5s ease-in-out infinite;animation-delay:0s,1.4s;transform-origin:340px 168px;"></circle>
+        </svg>
+      </div>
+      <div style="padding:22px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0 0 8px;color:#101828;">Fast &amp; Furious</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;">Filmden çıkma ikonik araçların lisanslı koleksiyonu.</p>
+      </div>
+    </a>
+
+    <!-- Retro Seri -->
+    <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+       style="border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;background:#F1F5FE;display:block;">
+      <div style="width:100%;aspect-ratio:1/1;position:relative;background:radial-gradient(circle at 50% 55%,#F1EEE3,#fff);">
+        <svg viewBox="0 0 440 220" style="width:82%;height:82%;position:absolute;top:9%;left:9%;overflow:visible;">
+          <path d="M20,172 C18,158 28,147 46,145 C52,122 70,104 92,96 L120,89 C136,84 154,82 170,84 L192,90 C200,103 202,120 200,136 L238,139 C266,141 294,146 316,153 C332,158 342,164 344,172 L344,176 Z"
+                fill="none" stroke="#8A8F5C" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"
+                stroke-dasharray="1300" style="animation:vintageDraw 5s ease-in-out infinite;animation-delay:2.1s;"></path>
+          <circle cx="70"  cy="176" r="24" fill="#F1EEE3" stroke="#101828" stroke-width="3.5" stroke-dasharray="155" style="animation:vintageDraw 5s ease-in-out infinite;animation-delay:2.1s;transform-origin:70px 176px;"></circle>
+          <circle cx="70"  cy="176" r="8"  fill="none" stroke="#101828" stroke-width="2" style="animation:wheelSpin 3s linear infinite,hubGlow 5s ease-in-out infinite;animation-delay:0s,2.1s;transform-origin:70px 176px;"></circle>
+          <circle cx="285" cy="176" r="24" fill="#F1EEE3" stroke="#101828" stroke-width="3.5" stroke-dasharray="155" style="animation:vintageDraw 5s ease-in-out infinite;animation-delay:2.1s;transform-origin:285px 176px;"></circle>
+          <circle cx="285" cy="176" r="8"  fill="none" stroke="#101828" stroke-width="2" style="animation:wheelSpin 3s linear infinite,hubGlow 5s ease-in-out infinite;animation-delay:0s,2.1s;transform-origin:285px 176px;"></circle>
+        </svg>
+        <div style="position:absolute;bottom:12px;right:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:#8A8F5C;">Est. 1930</div>
+      </div>
+      <div style="padding:22px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0 0 8px;color:#101828;">Retro &amp; Klasik</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;">Klasik kasa tasarımlarıyla nostaljik parçalar.</p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     ÖNE ÇIKAN ÜRÜNLER
+════════════════════════════════════════ -->
+<section style="max-width:1280px;margin:0 auto;padding:80px 32px 120px;">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px;flex-wrap:wrap;">
+    <div>
+      <div style="color:#1657D0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;">Öne Çıkanlar</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:40px;font-weight:600;margin:0;color:#101828;">Bu Ayın Seçkisi</h2>
+    </div>
+    <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+       style="font-weight:700;font-size:14px;color:#2F6FF0;border-bottom:1px solid #2F6FF0;padding-bottom:2px;">
+      Tüm Ürünleri Gör →
+    </a>
+  </div>
+
+  <div class="st-grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+
+    <!-- Ürün 1 -->
+    <div class="prod-card" style="background:#F1F5FE;border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+      <div style="width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;">
+        <img src="https://cdn.dsmcdn.com/ty1896/prod/QC_PREP/20260620/18/92372ece-f720-3f82-b408-1abaa653b7f0/1_org_zoom.jpg"
+             alt="Premium Fast & Furious 25 Years 10'lu Set"
+             style="width:100%;height:100%;object-fit:cover;transition:transform .3s;" />
+        <div style="position:absolute;top:14px;left:14px;background:#2F6FF0;color:#fff;font-size:11px;font-weight:800;letter-spacing:.05em;padding:5px 10px;border-radius:2px;">ÖNERİLEN</div>
+      </div>
+      <div style="padding:24px;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0;color:#101828;">Fast &amp; Furious 25 Years 10'lu Set</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;flex:1;">BMW M5, Dodge Charger, Honda NSX ve daha fazlası. 25. yıla özel premium set.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+          <div>
+            <span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:#2F6FF0;">₺4.598</span>
+            <div style="font-size:11px;color:#68738A;margin-top:2px;">10'lu sınırlı seri set</div>
+          </div>
+          <a href="https://www.trendyol.com/hot-wheels/premium-fast-furious-25-years-10-lu-set-bmw-m5-dodge-charger-chase-p-1159595936?merchantId=1277968&filterOverPriceListings=false"
+             target="_blank"
+             style="font-size:13px;font-weight:700;color:#0F1B33;border:1px solid rgba(22,87,208,.35);padding:9px 18px;border-radius:2px;">İncele</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ürün 2 -->
+    <div class="prod-card" style="background:#F1F5FE;border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+      <div style="width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;">
+        <img src="https://cdn.dsmcdn.com/ty1918/prod/QC_PREP/20260618/16/1a05b5c8-6ef7-34c8-9d88-6dc92321305b/1_org_zoom.jpg"
+             alt="69 Ford Mustang Boss 302"
+             style="width:100%;height:100%;object-fit:cover;transition:transform .3s;" />
+        <div style="position:absolute;top:14px;left:14px;background:#101828;color:#fff;font-size:11px;font-weight:800;letter-spacing:.05em;padding:5px 10px;border-radius:2px;">ÇOK SATAN</div>
+      </div>
+      <div style="padding:24px;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0;color:#101828;">69 Ford Mustang Boss 302</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;flex:1;">Amerikan kas arabasının efsanesi. Metal gövde, koleksiyoner kutulu premium model.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+          <div>
+            <span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:#2F6FF0;">₺1.450</span>
+            <div style="font-size:11px;color:#68738A;margin-top:2px;">Premium seri</div>
+          </div>
+          <a href="https://www.trendyol.com/hot-wheels/69-ford-mustang-boss-302-p-1158095135?merchantId=1277968&filterOverPriceListings=false"
+             target="_blank"
+             style="font-size:13px;font-weight:700;color:#0F1B33;border:1px solid rgba(22,87,208,.35);padding:9px 18px;border-radius:2px;">İncele</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ürün 3 -->
+    <div class="prod-card" style="background:#F1F5FE;border:1px solid rgba(22,87,208,.18);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;">
+      <div style="width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;">
+        <img src="https://cdn.dsmcdn.com/ty1902/prod/QC_PREP/20260616/17/e10db3bb-f757-3b3b-afe6-e8ccebd6bcb7/1_org_zoom.jpg"
+             alt="Back to the Future Time Machine"
+             style="width:100%;height:100%;object-fit:cover;transition:transform .3s;" />
+        <div style="position:absolute;top:14px;left:14px;background:#8A8F5C;color:#fff;font-size:11px;font-weight:800;letter-spacing:.05em;padding:5px 10px;border-radius:2px;">KLASİK</div>
+      </div>
+      <div style="padding:24px;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:19px;font-weight:600;margin:0;color:#101828;">Back to the Future — Time Machine</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;flex:1;">Sinemaya damgasını vuran DeLorean'ın lisanslı koleksiyoner modeli.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+          <div>
+            <span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:#2F6FF0;">₺1.100</span>
+            <div style="font-size:11px;color:#68738A;margin-top:2px;">Özel koleksiyon</div>
+          </div>
+          <a href="https://www.trendyol.com/hot-wheels/back-to-the-future-time-machine-p-1157414600?merchantId=1277968&filterOverPriceListings=false"
+             target="_blank"
+             style="font-size:13px;font-weight:700;color:#0F1B33;border:1px solid rgba(22,87,208,.35);padding:9px 18px;border-radius:2px;">İncele</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     HAKKIMIZDA
+════════════════════════════════════════ -->
+<section id="hakkimizda" style="background:#EEF3FE;color:#101828;">
+  <div class="st-about-grid"
+    style="max-width:1280px;margin:0 auto;padding:120px 32px;display:grid;grid-template-columns:.85fr 1.15fr;gap:72px;align-items:center;">
+    <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px -24px rgba(0,0,0,.25);background:linear-gradient(160deg,#DCE8FF,#EAF0FD);display:flex;align-items:center;justify-content:center;">
+      <img src="logo2.png" alt="SemToys" style="width:70%;height:auto;filter:drop-shadow(0 4px 24px rgba(22,87,208,.3));" />
+    </div>
+    <div>
+      <div style="color:#1550C4;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;">Hakkımızda</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:38px;font-weight:600;margin:0 0 24px;line-height:1.2;">Tutkuyla Başladık,<br>Özenle Sürdürüyoruz</h2>
+      <p style="font-size:16px;line-height:1.8;color:#3E4C63;margin:0 0 20px;">SemToys, model otomobil tutkusunu bir vitrine dönüştürmek için kuruldu. Her ürünü, koleksiyonuna değer katacak parçalar arayan gerçek koleksiyonerler gözüyle seçiyoruz.</p>
+      <p style="font-size:16px;line-height:1.8;color:#3E4C63;margin:0 0 36px;">Amacımız yalnızca oyuncak satmak değil; kutusundan çıkışına kadar her detayın özenle korunduğu, güvenilir bir alışveriş deneyimi sunmak.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid rgba(26,23,18,.12);padding-top:32px;">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#1550C4;">2019</div>
+          <div style="font-size:13px;color:#68738A;margin-top:6px;">Kuruluş</div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#1550C4;">12K+</div>
+          <div style="font-size:13px;color:#68738A;margin-top:6px;">Mutlu Koleksiyoner</div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#1550C4;">7/24</div>
+          <div style="font-size:13px;color:#68738A;margin-top:6px;">Destek</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FİYAT ARALIKLARI
+════════════════════════════════════════ -->
+<section id="fiyatlar" style="max-width:1280px;margin:0 auto;padding:120px 32px;">
+  <div style="text-align:center;max-width:640px;margin:0 auto 64px;">
+    <div style="color:#1657D0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;">Fiyat Aralıkları</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:40px;font-weight:600;margin:0 0 16px;color:#101828;">Her Koleksiyonere Uygun Seçki</h2>
+    <p style="font-size:16px;color:#5B667A;line-height:1.7;margin:0;">Güncel fiyatlar Trendyol mağazamızda kampanyalara göre değişiklik gösterebilir.</p>
+  </div>
+
+  <div class="st-grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+
+    <!-- Başlangıç -->
+    <div class="tier-card" style="background:#F1F5FE;border:1px solid rgba(22,87,208,.18);border-radius:4px;padding:40px 32px;display:flex;flex-direction:column;gap:20px;">
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin:0 0 8px;color:#101828;">Başlangıç Koleksiyonu</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;">Koleksiyona yeni başlayanlar için ideal giriş serisi.</p>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:#101828;">₺99</span>
+        <div style="font-size:13px;color:#68738A;margin-top:4px;">'dan başlayan fiyatlarla</div>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Tekli standart modeller</li>
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Temel ambalaj</li>
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Standart kargo</li>
+      </ul>
+      <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+         style="text-align:center;color:#2F6FF0;font-weight:700;font-size:14px;padding:14px;border-radius:2px;margin-top:8px;border:1px solid rgba(22,87,208,.35);">
+        Koleksiyona Bak
+      </a>
+    </div>
+
+    <!-- Premium (vurgulu) -->
+    <div class="tier-card" style="background:linear-gradient(160deg,#DCE8FF,#EAF0FD);border:1px solid rgba(47,111,240,.5);border-radius:4px;padding:40px 32px;display:flex;flex-direction:column;gap:20px;position:relative;">
+      <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#2F6FF0;color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 16px;border-radius:2px;white-space:nowrap;">EN POPÜLER</div>
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin:0 0 8px;color:#101828;">Premium Seri</h3>
+        <p style="font-size:13px;color:#3E4C63;line-height:1.6;margin:0;">En çok tercih edilen, dengeli fiyat-kalite seçkisi.</p>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:#101828;">₺199</span>
+        <div style="font-size:13px;color:#3E4C63;margin-top:4px;">'dan başlayan fiyatlarla</div>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <li style="font-size:14px;color:#3E4C63;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Premium metal gövde</li>
+        <li style="font-size:14px;color:#3E4C63;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Koleksiyoner kutusu</li>
+        <li style="font-size:14px;color:#3E4C63;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Öncelikli kargo</li>
+        <li style="font-size:14px;color:#3E4C63;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Sınırlı seri erişimi</li>
+      </ul>
+      <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+         style="text-align:center;background:linear-gradient(135deg,#2F6FF0,#0B3FA0);color:#fff;font-weight:700;font-size:14px;padding:14px;border-radius:2px;margin-top:8px;">
+        Koleksiyona Bak
+      </a>
+    </div>
+
+    <!-- Koleksiyoner -->
+    <div class="tier-card" style="background:#F1F5FE;border:1px solid rgba(22,87,208,.18);border-radius:4px;padding:40px 32px;display:flex;flex-direction:column;gap:20px;">
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin:0 0 8px;color:#101828;">Koleksiyoner Serisi</h3>
+        <p style="font-size:13px;color:#68738A;line-height:1.6;margin:0;">Nadir bulunan, üst segment özel parçalar.</p>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:#101828;">₺449</span>
+        <div style="font-size:13px;color:#68738A;margin-top:4px;">'dan başlayan fiyatlarla</div>
+      </div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Sınırlı sayıda üretim</li>
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Sertifikalı orijinallik</li>
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>Özel vitrin kutusu</li>
+        <li style="font-size:14px;color:#68738A;display:flex;gap:10px;"><span style="color:#101828;font-weight:700;">—</span>VIP müşteri desteği</li>
+      </ul>
+      <a href="https://www.trendyol.com/magaza/sem-toys-m-1277968" target="_blank"
+         style="text-align:center;color:#2F6FF0;font-weight:700;font-size:14px;padding:14px;border-radius:2px;margin-top:8px;border:1px solid rgba(22,87,208,.35);">
+        Koleksiyona Bak
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     İLETİŞİM
+════════════════════════════════════════ -->
+<section id="iletisim" style="background:#F1F5FE;border-top:1px solid rgba(22,87,208,.15);">
+  <div class="st-contact-grid"
+    style="max-width:1280px;margin:0 auto;padding:120px 32px;display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;">
+    <div>
+      <div style="color:#1657D0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;">İletişim</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:38px;font-weight:600;margin:0 0 24px;color:#101828;line-height:1.2;">Sorularınız İçin Buradayız</h2>
+      <p style="font-size:16px;line-height:1.8;color:#5B667A;margin:0 0 40px;">Ürünlerimiz, kargo süreçleri veya özel istekleriniz için bize ulaşın; en kısa sürede dönüş yapalım.</p>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="width:44px;height:44px;border:1px solid rgba(22,87,208,.3);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#2F6FF0;font-size:18px;">✉</div>
+          <div>
+            <div style="font-size:13px;color:#68738A;margin-bottom:4px;">E-posta</div>
+            <div style="font-size:15px;font-weight:600;color:#0F1B33;">info@semtoys.com</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="width:44px;height:44px;border:1px solid rgba(22,87,208,.3);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#2F6FF0;font-size:18px;">☏</div>
+          <div>
+            <div style="font-size:13px;color:#68738A;margin-bottom:4px;">Telefon / WhatsApp</div>
+            <div style="font-size:15px;font-weight:600;color:#0F1B33;">+90 (5xx) xxx xx xx</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="width:44px;height:44px;border:1px solid rgba(22,87,208,.3);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#2F6FF0;font-size:18px;">🛍</div>
+          <div>
+            <div style="font-size:13px;color:#68738A;margin-bottom:4px;">Mağaza</div>
+            <div style="font-size:15px;font-weight:600;color:#0F1B33;">Trendyol / SemToys Resmi Satıcı</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div>
+      <div id="form-success"
+        style="background:#EAF0FD;border:1px solid rgba(22,87,208,.25);border-radius:4px;padding:56px 40px;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;">
+        <div style="font-size:34px;color:#2F6FF0;">✓</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:600;margin:0;color:#101828;">Mesajınız Alındı</h3>
+        <p style="font-size:14px;color:#5B667A;margin:0;max-width:320px;">En kısa sürede size geri döneceğiz. İlginiz için teşekkür ederiz.</p>
+      </div>
+
+      <form id="contact-form"
+        style="background:#EAF0FD;border:1px solid rgba(22,87,208,.2);border-radius:4px;padding:40px;display:flex;flex-direction:column;gap:20px;"
+        onsubmit="submitForm(event)">
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:#5B667A;margin-bottom:8px;">Adınız Soyadınız</label>
+          <input type="text" placeholder="Adınız Soyadınız" required
+            style="width:100%;background:#fff;border:1px solid rgba(22,87,208,.25);border-radius:2px;padding:13px 16px;color:#0F1B33;font-size:14px;" />
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:#5B667A;margin-bottom:8px;">E-posta</label>
+          <input type="email" placeholder="ornek@eposta.com" required
+            style="width:100%;background:#fff;border:1px solid rgba(22,87,208,.25);border-radius:2px;padding:13px 16px;color:#0F1B33;font-size:14px;" />
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:#5B667A;margin-bottom:8px;">Mesajınız</label>
+          <textarea placeholder="Size nasıl yardımcı olabiliriz?" rows="5" required
+            style="width:100%;background:#fff;border:1px solid rgba(22,87,208,.25);border-radius:2px;padding:13px 16px;color:#0F1B33;font-size:14px;resize:vertical;"></textarea>
+        </div>
+        <button type="submit"
+          style="background:linear-gradient(135deg,#2F6FF0,#0B3FA0);color:#fff;font-weight:700;font-size:15px;padding:15px;border:none;border-radius:2px;cursor:pointer;">
+          Mesaj Gönder
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer style="border-top:1px solid rgba(22,87,208,.15);">
+  <div style="max-width:1280px;margin:0 auto;padding:48px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+    <img src="logo2.png" alt="SemToys" style="height:52px;width:auto;opacity:.9;" />
+    <div style="display:flex;gap:28px;font-size:14px;font-weight:600;color:#68738A;flex-wrap:wrap;">
+      <a href="#hero"       class="nav-link">Ana Sayfa</a>
+      <a href="#koleksiyon" class="nav-link">Koleksiyon</a>
+      <a href="#hakkimizda" class="nav-link">Hakkımızda</a>
+      <a href="#iletisim"   class="nav-link">İletişim</a>
+    </div>
+    <div style="font-size:13px;color:#68738A;">© 2026 SemToys. Tüm hakları saklıdır.</div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  document.getElementById('menu-toggle').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('open');
+  }
+
+  // Contact form
+  function submitForm(e) {
+    e.preventDefault();
+    document.getElementById('contact-form').classList.add('hidden');
+    document.getElementById('form-success').classList.add('visible');
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var id = this.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
