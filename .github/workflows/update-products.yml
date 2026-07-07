@@ -1,0 +1,45 @@
+name: Trendyol Ürün Güncelleme
+
+on:
+  schedule:
+    # Her gece 00:00 UTC = 03:00 Türkiye saati
+    - cron: '0 0 * * *'
+  # Manuel tetikleme (GitHub Actions sayfasından "Run workflow" butonu)
+  workflow_dispatch:
+
+permissions:
+  contents: write   # products.json commit edebilmek için gerekli
+
+jobs:
+  update-products:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Repoyu çek
+        uses: actions/checkout@v4
+
+      - name: Node.js kur (fetch built-in, bağımlılık yok)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Trendyol API'den ürünleri çek
+        env:
+          TRENDYOL_API_KEY:     ${{ secrets.TRENDYOL_API_KEY }}
+          TRENDYOL_API_SECRET:  ${{ secrets.TRENDYOL_API_SECRET }}
+          TRENDYOL_SUPPLIER_ID: ${{ secrets.TRENDYOL_SUPPLIER_ID }}
+        run: node --input-type=module < scripts/fetch-products.js
+
+      - name: Değişiklikleri commit et ve push yap
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add products.json
+          if git diff --staged --quiet; then
+            echo "Ürünlerde değişiklik yok, commit atlandı."
+          else
+            COUNT=$(node -e "const d=require('./products.json');console.log(d.count)")
+            git commit -m "chore: ürünler güncellendi — ${COUNT} ürün ($(date '+%d.%m.%Y %H:%M TR'))"
+            git push
+          fi
